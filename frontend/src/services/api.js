@@ -16,7 +16,7 @@ API.interceptors.request.use((req) => {
 
 export const getTasks = () => API.get("/tasks");
 export const createTask = (data) => API.post("/tasks", data);
-export const completeTask = (id) => API.put(`/tasks/${id}`);
+export const completeTask = (id) => API.put(`/tasks/${id}`, { status: "completed" });
 export const deleteTask = (id) => API.delete(`/tasks/${id}`);
 
 export const registerUser = (data) => API.post("/auth/register", data);
