@@ -23,10 +23,10 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Login</h2>
 
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="auth-form">
         <input
           placeholder="Username"
           value={username}

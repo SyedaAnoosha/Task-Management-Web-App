@@ -62,15 +62,6 @@ export default function Home() {
   return (
     <div>
       <h1>Task Management Application</h1>
-      <h2>Made by Syeda Anoosha Iqtidar</h2>
-      <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/login");
-        }}
-      >
-        Logout
-      </button>
 
       <TaskForm onAdd={handleAdd} />
 

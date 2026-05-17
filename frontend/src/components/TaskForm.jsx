@@ -22,27 +22,34 @@ export default function TaskForm({ onAdd }) {
   };
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} className="stack-form">
+
+      <label htmlFor="title" className="label-class">
+        Title:
+      </label>
       <input
-        placeholder="Title"
+        id="title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
 
+      <label htmlFor="description" className="label-class">
+        Description:
+      </label>
       <input
-        placeholder="Description"
+        id="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <label>
-        Priority
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
+      <label htmlFor="priority" className="label-class">
+        Priority:
       </label>
+      <select id="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
 
       <button type="submit">Add Task</button>
     </form>

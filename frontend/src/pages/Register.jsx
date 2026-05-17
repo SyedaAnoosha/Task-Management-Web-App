@@ -22,10 +22,10 @@ export default function Register() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Register</h2>
 
-      <form onSubmit={handleRegister}>
+      <form onSubmit={handleRegister} className="auth-form">
         <input
           placeholder="Username"
           value={username}

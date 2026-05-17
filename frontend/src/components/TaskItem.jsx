@@ -2,19 +2,21 @@ export default function TaskItem({ task, onComplete, onDelete }) {
   const isCompleted = task.status === "completed";
 
   return (
-    <div style={{ border: "1px solid #ccc", margin: 10, padding: 10 }}>
+    <div className="task-card">
       <h4>{task.title}</h4>
-      <p> Description: {task.description || "No description provided"}</p>
-      <p>Status: {task.status}</p>
-      <p>Priority: {task.priority}</p>
+      <p className="muted">Description: {task.description || "No description provided"}</p>
+      <p>Status: <strong>{task.status}</strong></p>
+      <p>Priority: <em>{task.priority}</em></p>
 
-      <button onClick={() => onComplete(task.id, task.status)}>
-        {isCompleted ? "Mark Pending" : "Mark Completed"}
-      </button>
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <button onClick={() => onComplete(task.id, task.status)}>
+          {isCompleted ? "Mark Pending" : "Mark Completed"}
+        </button>
 
-      <button onClick={() => onDelete(task.id)}>
-        Delete
-      </button>
+        <button onClick={() => onDelete(task.id)} style={{ background: 'transparent', color: 'var(--pink-800)', border: '1px solid var(--border)' }}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
