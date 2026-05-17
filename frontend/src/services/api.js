@@ -14,10 +14,11 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const getTasks = () => API.get("/tasks");
+export const getTasks = (params) => API.get("/tasks", { params });
 export const createTask = (data) => API.post("/tasks", data);
 export const completeTask = (id) => API.put(`/tasks/${id}`, { status: "completed" });
 export const deleteTask = (id) => API.delete(`/tasks/${id}`);
+export const updateTask = (id, data) => API.put(`/tasks/${id}`, data);
 
 export const registerUser = (data) => API.post("/auth/register", data);
 export const loginUser = (data) => API.post("/auth/login", data);
