@@ -12,8 +12,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 @jwt_required()
 def get_tasks_controller():
     status = request.args.get('status')
+    q = request.args.get('q')
     user_id = int(get_jwt_identity())
-    tasks = list_tasks(user_id=user_id, status=status)
+    tasks = list_tasks(user_id=user_id, status=status, q=q)
     return jsonify(tasks), 200
 
 

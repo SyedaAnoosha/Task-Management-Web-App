@@ -1,10 +1,14 @@
 from app.database import db
 from app.models.task import Task
+from sqlalchemy import or_
 
-def list_tasks(user_id, status=None):
+def list_tasks(user_id, status=None, q=None):
     query = Task.query.filter_by(user_id=user_id).order_by(Task.created_at.desc())
     if status:
         query = query.filter_by(status=status)
+    if q:
+        pattern = f"%{q}%"
+        query = query.filter(or_(Task.title.ilike(pattern), Task.description.ilike(pattern)))
     return [t.to_dict() for t in query.all()]
 
 def create_task(data, user_id):

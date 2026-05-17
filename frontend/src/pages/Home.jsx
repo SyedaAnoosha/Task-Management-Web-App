@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getTasks,
   createTask,
-  completeTask,
+  updateTask,
   deleteTask,
 } from "../services/api";
 
@@ -14,6 +14,8 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [tasks, setTasks] = useState([]);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,7 +27,10 @@ export default function Home() {
 
     const loadTasks = async () => {
       try {
-        const res = await getTasks();
+        const params = {};
+        if (statusFilter) params.status = statusFilter;
+        if (search) params.q = search;
+        const res = await getTasks(params);
         setTasks(res.data);
       } catch (err) {
         console.log(err);
@@ -33,23 +38,24 @@ export default function Home() {
     };
 
     loadTasks();
-  }, [navigate]);
+  }, [navigate, search, statusFilter]);
 
   const handleAdd = async (task) => {
     await createTask(task);
-    const res = await getTasks();
+    const res = await getTasks({ status: statusFilter || undefined, q: search || undefined });
     setTasks(res.data);
   };
 
-  const handleComplete = async (id) => {
-    await completeTask(id);
-    const res = await getTasks();
+  const handleComplete = async (id, currentStatus) => {
+    const newStatus = currentStatus === "completed" ? "pending" : "completed";
+    await updateTask(id, { status: newStatus });
+    const res = await getTasks({ status: statusFilter || undefined, q: search || undefined });
     setTasks(res.data);
   };
 
   const handleDelete = async (id) => {
     await deleteTask(id);
-    const res = await getTasks();
+    const res = await getTasks({ status: statusFilter || undefined, q: search || undefined });
     setTasks(res.data);
   };
 
@@ -67,6 +73,34 @@ export default function Home() {
       </button>
 
       <TaskForm onAdd={handleAdd} />
+
+      <div style={{ marginTop: 12 }}>
+        <input
+          placeholder="Search tasks"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            // reload after updating search
+            getTasks({ status: statusFilter || undefined, q: e.target.value || undefined })
+              .then((res) => setTasks(res.data))
+              .catch((err) => console.log(err));
+          }}
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e) => {
+            setStatusFilter(e.target.value);
+            getTasks({ status: e.target.value || undefined, q: search || undefined })
+              .then((res) => setTasks(res.data))
+              .catch((err) => console.log(err));
+          }}
+        >
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
 
       <TaskList
         tasks={tasks}
