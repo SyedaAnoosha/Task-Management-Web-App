@@ -4,3 +4,5 @@ flask-sqlalchemy
 psycopg2-binary
 python-dotenv
 gunicorn
+flask-jwt-extended
+werkzeug

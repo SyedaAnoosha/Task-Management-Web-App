@@ -9,6 +9,7 @@ class Task(db.Model):
     description = db.Column(db.Text, nullable=True)
     priority = db.Column(db.String(32), nullable=True)
     status = db.Column(db.String(32), nullable=False, default='pending')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def to_dict(self):
@@ -18,5 +19,7 @@ class Task(db.Model):
             'description': self.description,
             'priority': self.priority,
             'status': self.status,
+            'user_id': self.user_id,
             'created_at': self.created_at.isoformat(),
+            
         }
