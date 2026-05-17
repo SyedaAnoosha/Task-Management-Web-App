@@ -114,7 +114,8 @@ h2 {
 
 h1 {
   font-size: 56px;
-  letter-spacing: -1.68px;
+  letter-spacing: -1px;
+  line-height: 110%;
   margin: 32px 0;
   @media (max-width: 1024px) {
     font-size: 36px;
