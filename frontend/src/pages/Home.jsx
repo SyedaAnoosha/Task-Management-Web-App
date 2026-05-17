@@ -1,44 +1,73 @@
 import { useEffect, useState } from "react";
-import { getTasks, createTask, completeTask, deleteTask } from "../api_service/api";
-
+import { useNavigate } from "react-router-dom";
+import {
+  getTasks,
+  createTask,
+  completeTask,
+  deleteTask,
+} from "../services/api";
 
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const [tasks, setTasks] = useState([]);
 
-  const loadTasks = async () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    const loadTasks = async () => {
+      try {
+        const res = await getTasks();
+        setTasks(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadTasks();
+  }, [navigate]);
+
+  const handleAdd = async (task) => {
+    await createTask(task);
     const res = await getTasks();
     setTasks(res.data);
   };
 
-  useEffect(() => {
-    const init = async () => {
-      await loadTasks();
-    };
-
-    init();
-  }, []);
-
-  const handleAdd = async (task) => {
-    await createTask(task);
-    loadTasks();
-  };
-
   const handleComplete = async (id) => {
     await completeTask(id);
-    loadTasks();
+    const res = await getTasks();
+    setTasks(res.data);
   };
 
   const handleDelete = async (id) => {
     await deleteTask(id);
-    loadTasks();
+    const res = await getTasks();
+    setTasks(res.data);
   };
 
   return (
     <div>
+      <h1>Task Management Application</h1>
+      <h2>Made by Syeda Anoosha Iqtidar</h2>
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }}
+      >
+        Logout
+      </button>
+
       <TaskForm onAdd={handleAdd} />
+
       <TaskList
         tasks={tasks}
         onComplete={handleComplete}
