@@ -81,10 +81,10 @@ Protected endpoints require header: `Authorization: Bearer <token>`
 - Priority field and UI support
 - Search and status filtering
 - React frontend with Axios helper that injects JWT
+- Tailwind CSS for better styling
 
 ## Assumptions & Improvements
 
 - Development uses `db.create_all()`; add Flask-Migrate / Alembic for DB migrations in production.
-- From simple CSS, switch to a proper stylinng library like TailwindCSS
 - Add more relevant fields for task management like deadline, subtasks addition, to-put-effort
 - Allow user to edit a task details after creation
